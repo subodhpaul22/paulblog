@@ -6,7 +6,6 @@ import sqlite3
 app = Flask(__name__)
 app.secret_key = 'e4c2d50a1fa64b31c1b57ed2df6a97d8'
 
-
 UPLOAD_FOLDER = 'static/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -36,7 +35,6 @@ def init_db():
         cursor = conn.execute("SELECT * FROM admin")
         if not cursor.fetchall():
             conn.execute("INSERT INTO admin (username, password) VALUES (?, ?)", ('subodh', '148986'))
-
 
 # Home page
 @app.route('/')
@@ -78,7 +76,6 @@ def dashboard():
     conn.close()
     return render_template('dashboard.html', posts=posts)
 
-
 # Add Post
 @app.route('/post', methods=['GET', 'POST'])
 def post():
@@ -89,12 +86,13 @@ def post():
         content = request.form['content']
         video = request.form['video']
 
-        image_file = request.files['image']
+        image_file = request.files.get('image')
         image_path = None
-        if image_file:
+        if image_file and image_file.filename != '':
             filename = secure_filename(image_file.filename)
             image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             image_file.save(image_path)
+            # ডাটাবেজে রাখার জন্য 'static/' অংশ বাদ দিচ্ছি যাতে টেমপ্লেটে সহজে ব্যবহার হয়
             image_path = image_path.replace('static/', '')
 
         conn = sqlite3.connect('blog.db')
