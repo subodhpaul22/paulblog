@@ -1,19 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Electronics Blog</title>
-  <link rel="stylesheet" href="/static/style.css">
+    <meta charset="UTF-8">
+    <title>My Blog</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f9f9f9; }
+        .post { background: #fff; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 0 5px #ccc; }
+        .post img { max-width: 100%; height: auto; }
+        .post video { max-width: 100%; height: auto; }
+        .admin-links { margin-bottom: 20px; }
+        .admin-links a { margin-right: 10px; text-decoration: none; color: blue; }
+    </style>
 </head>
 <body>
-  <h1>🔌 Electronics Blog</h1>
-  <a href="/login">Admin Login</a>
-  <hr>
-  {% for post in posts %}
-    <div class="post">
-      <h2><a href="/post/{{ post[0] }}">{{ post[1] }}</a></h2>
-      <p>{{ post[2][:150] }}...</p>
+
+    <h1>📚 My Blog</h1>
+
+    <div class="admin-links">
+        {% if session.admin %}
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        {% else %}
+            <a href="{{ url_for('login') }}">Admin Login</a>
+        {% endif %}
     </div>
-    <hr>
-  {% endfor %}
+
+    {% for post in posts %}
+    <div class="post">
+        <h2>{{ post[1] }}</h2>
+        <p>{{ post[2] | safe }}</p>
+        
+        {% if post[3] %}
+            <img src="{{ url_for('static', filename=post[3]) }}" alt="Image">
+        {% endif %}
+
+        {% if post[4] %}
+            <video controls>
+                <source src="{{ post[4] }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        {% endif %}
+    </div>
+    {% endfor %}
+
 </body>
 </html>
