@@ -1,31 +1,76 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>{{ post[1] }}</title>
+  <meta charset="UTF-8">
+  <title>New Post</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      background-color: #f7f7f7;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    form {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      max-width: 600px;
+    }
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    input[type="file"] {
+      margin-bottom: 20px;
+    }
+    input[type="submit"] {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    input[type="submit"]:hover {
+      background-color: #218838;
+    }
+    a {
+      text-decoration: none;
+      color: #007bff;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-  <h1>{{ post[1] }}</h1>
-  <p>{{ post[2] | safe }}</p>
 
-  {% if post[3] %}
-    <img src="/static/{{ post[3] }}" alt="Image" style="max-width: 100%; height: auto;">
-  {% endif %}
+  <h2>📝 Create New Blog Post</h2>
 
-  {% if post[4] %}
-    <div>
-      <iframe width="560" height="315" src="{{ post[4] }}" frameborder="0" allowfullscreen></iframe>
-    </div>
-  {% endif %}
+  <form action="/post" method="POST" enctype="multipart/form-data">
+    <label for="title">Title:</label><br>
+    <input type="text" name="title" id="title" required><br>
 
-  <hr>
-  <h2>Leave a Comment:</h2>
-  <form action="/comment/{{ post[0] }}" method="POST">
-    <input type="text" name="name" placeholder="Your Name" required><br><br>
-    <textarea name="comment" placeholder="Your Comment" rows="4" required></textarea><br><br>
-    <input type="submit" value="Submit">
+    <label for="content">Content:</label><br>
+    <textarea name="content" id="content" rows="6" required></textarea><br>
+
+    <label for="image">Upload Image:</label><br>
+    <input type="file" name="image" accept="image/*"><br>
+
+    <label for="video">Embed YouTube Link (optional):</label><br>
+    <input type="text" name="video" id="video"><br>
+
+    <input type="submit" value="Publish Post">
   </form>
 
-  <br><br>
-  <a href="/">⬅️ Back</a>
+  <br>
+  <a href="/dashboard">⬅️ Back to Dashboard</a>
+
 </body>
 </html>
