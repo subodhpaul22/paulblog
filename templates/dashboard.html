@@ -1,18 +1,127 @@
 <!DOCTYPE html>
-<html>
-<head><title>Admin Dashboard</title></head>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Dashboard - Manage Posts</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f9fc;
+      padding: 30px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+    }
+    .topbar {
+      max-width: 900px;
+      margin: 0 auto 30px auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .topbar a {
+      text-decoration: none;
+      background-color: #007bff;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 5px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+    .topbar a:hover {
+      background-color: #0056b3;
+    }
+    table {
+      width: 900px;
+      margin: 0 auto;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+    th {
+      background-color: #007bff;
+      color: white;
+      font-weight: 600;
+    }
+    tr:hover {
+      background-color: #f1f9ff;
+    }
+    .actions a {
+      margin-right: 10px;
+      color: #007bff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .actions a:hover {
+      text-decoration: underline;
+    }
+    .no-posts {
+      text-align: center;
+      padding: 30px;
+      color: #666;
+    }
+  </style>
+</head>
 <body>
-  <h2>📋 Create New Post</h2>
-  <form method="POST">
-    <input name="title" placeholder="Blog Title" required><br><br>
-    <textarea name="content" rows="10" cols="50" placeholder="Write your electronics article in HTML or Markdown..."></textarea><br>
-    <button type="submit">Post</button>
-  </form>
-  <hr>
-  <h3>All Posts:</h3>
-  {% for post in posts %}
-    <p><a href="/post/{{ post[0] }}">{{ post[1] }}</a></p>
-  {% endfor %}
-  <br><a href="/logout">Logout</a>
+
+  <div class="topbar">
+    <h1>Admin Dashboard</h1>
+    <div>
+      <a href="/post">+ Create New Post</a>
+      <a href="/logout" style="background-color:#dc3545; margin-left: 10px;">Logout</a>
+    </div>
+  </div>
+
+  {% if posts %}
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Image</th>
+        <th>Video</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for post in posts %}
+      <tr>
+        <td>{{ post[0] }}</td>
+        <td>{{ post[1] }}</td>
+        <td>
+          {% if post[3] %}
+            <img src="/static/{{ post[3] }}" alt="Image" style="width: 80px; height: auto; border-radius: 4px;">
+          {% else %}
+            -
+          {% endif %}
+        </td>
+        <td>
+          {% if post[4] %}
+            <a href="{{ post[4] }}" target="_blank">Video Link</a>
+          {% else %}
+            -
+          {% endif %}
+        </td>
+        <td class="actions">
+          <a href="/post/{{ post[0] }}">View</a>
+          <!-- Future: Edit and Delete links can be added here -->
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="no-posts">No posts found. Start by creating a new blog post.</p>
+  {% endif %}
+
 </body>
 </html>
