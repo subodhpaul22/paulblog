@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head><title>Admin Dashboard</title></head>
+<body>
+  <h2>📋 Create New Post</h2>
+  <form method="POST">
+    <input name="title" placeholder="Blog Title" required><br><br>
+    <textarea name="content" rows="10" cols="50" placeholder="Write your electronics article in HTML or Markdown..."></textarea><br>
+    <button type="submit">Post</button>
+  </form>
+  <hr>
+  <h3>All Posts:</h3>
+  {% for post in posts %}
+    <p><a href="/post/{{ post[0] }}">{{ post[1] }}</a></p>
+  {% endfor %}
+  <br><a href="/logout">Logout</a>
+</body>
+</html>
