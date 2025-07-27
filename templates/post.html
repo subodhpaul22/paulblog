@@ -1,9 +1,31 @@
 <!DOCTYPE html>
 <html>
-<head><title>{{ post[1] }}</title></head>
+<head>
+  <title>{{ post[1] }}</title>
+</head>
 <body>
   <h1>{{ post[1] }}</h1>
   <p>{{ post[2] | safe }}</p>
+
+  {% if post[3] %}
+    <img src="/static/{{ post[3] }}" alt="Image" style="max-width: 100%; height: auto;">
+  {% endif %}
+
+  {% if post[4] %}
+    <div>
+      <iframe width="560" height="315" src="{{ post[4] }}" frameborder="0" allowfullscreen></iframe>
+    </div>
+  {% endif %}
+
+  <hr>
+  <h2>Leave a Comment:</h2>
+  <form action="/comment/{{ post[0] }}" method="POST">
+    <input type="text" name="name" placeholder="Your Name" required><br><br>
+    <textarea name="comment" placeholder="Your Comment" rows="4" required></textarea><br><br>
+    <input type="submit" value="Submit">
+  </form>
+
+  <br><br>
   <a href="/">⬅️ Back</a>
 </body>
 </html>
