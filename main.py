@@ -75,6 +75,7 @@ def dashboard():
     conn.close()
     return render_template('dashboard.html', posts=posts)
 
+
 # Add Post
 @app.route('/post', methods=['GET', 'POST'])
 def post():
