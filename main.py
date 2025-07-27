@@ -14,8 +14,10 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 # Database init
 def init_db():
     with sqlite3.connect('blog.db') as conn:
+        # পুরানো টেবিল ড্রপ করো (সাবধান, সব ডাটা মুছে যাবে)
+        conn.execute("DROP TABLE IF EXISTS posts")
         conn.execute('''
-            CREATE TABLE IF NOT EXISTS posts (
+            CREATE TABLE posts (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 title TEXT NOT NULL,
                 content TEXT NOT NULL,
@@ -30,10 +32,11 @@ def init_db():
                 password TEXT NOT NULL
             )
         ''')
-        # Default admin
+        # ডিফল্ট অ্যাডমিন ইনসার্ট
         cursor = conn.execute("SELECT * FROM admin")
         if not cursor.fetchall():
-            conn.execute("INSERT INTO admin (username, password) VALUES (?, ?)", ('admin', 'password'))
+            conn.execute("INSERT INTO admin (username, password) VALUES (?, ?)", ('subodh', '148986'))
+
 
 # Home page
 @app.route('/')
